@@ -26,7 +26,7 @@ esac
 
 
 
-parameters=("--filters-file" "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "--create-empty-src-dirs" "--compare" "size,modtime,checksum" "--slow-hash-sync-only" "-MvP")
+parameters=("--create-empty-src-dirs" "--compare" "size,modtime,checksum" "--slow-hash-sync-only" "-MvP")
 resync=
 
 while [ $# -gt 0 ]; do
@@ -58,5 +58,5 @@ else
     parameters+=("--resync")
 fi
 
-rclone bisync "${HOME}/Documents" "SPIN:Documents/" "${parameters[@]}" 
+rclone bisync "${HOME}/Documents" "SPIN:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
 rclone bisync "${HOME}/Templates" "SPIN:Templates/" "${parameters[@]}" 
