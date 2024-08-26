@@ -17,6 +17,11 @@ Options:
 case `cat /proc/sys/kernel/hostname` in 
     "rigal-x302ua")
         FILTER_FILE=".Asus_filter_file"
+        DRIVE_NAME="SPIN"
+        ;;
+    "riccardo-PRO-H610-DP180-MS-B0A7")
+        FILTER_FILE=".WorkPC_filter_file"
+        DRIVE_NAME="CNR"
         ;;
     *)
         echo "Unknown device"
@@ -58,5 +63,5 @@ else
     parameters+=("--resync")
 fi
 
-rclone bisync "${HOME}/Documents" "SPIN:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
-rclone bisync "${HOME}/Templates" "SPIN:Templates/" "${parameters[@]}" 
+rclone bisync "${HOME}/Documents" "${DRIVE_NAME}:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
+rclone bisync "${HOME}/Templates" "${DRIVE_NAME}:Templates/" "${parameters[@]}" 
