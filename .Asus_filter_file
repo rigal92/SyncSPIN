@@ -2,6 +2,8 @@
 - .debris/
 - .megaignore
 - Tex-Begins/eikdoe/
+- Tex-Begins/eikdoe/
+- Accurion/**/maps/*.png
 + /Research/SPIN/**
 + /Admin/**
 + /Guides/**
