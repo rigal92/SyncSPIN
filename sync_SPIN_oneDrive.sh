@@ -31,7 +31,7 @@ esac
 
 
 
-parameters=("--create-empty-src-dirs" "--compare" "size,modtime,checksum" "--slow-hash-sync-only" "-MvP")
+parameters=("--create-empty-src-dirs" "--compare" "size,modtime,checksum" "--slow-hash-sync-only" "-MvP" "--resilient")
 resync=
 
 while [ $# -gt 0 ]; do
