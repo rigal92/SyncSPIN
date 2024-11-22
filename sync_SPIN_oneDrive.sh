@@ -65,3 +65,4 @@ fi
 
 rclone bisync "${HOME}/Documents" "${DRIVE_NAME}:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
 rclone bisync "${HOME}/Templates" "${DRIVE_NAME}:Templates/" "${parameters[@]}" 
+rclone bisync "${HOME}/.config/matplotlib/" "${DRIVE_NAME}:.config/matplotlib/" "${parameters[@]}" 
