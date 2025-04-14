@@ -11,6 +11,7 @@ Options:
   -n, --dry-run         print modifications but don't perform them
   --resync              perform a resync of the folders. The option 
                         --track-renames is removed in this case.
+  -f, --folder folder   sync specific folder. If not provided everything is synced
   -h, --help            print this help and exit
   "
 }
@@ -33,6 +34,7 @@ esac
 
 parameters=("--create-empty-src-dirs" "--compare" "size,modtime,checksum" "--slow-hash-sync-only" "-MvP" "--resilient")
 resync=
+FOLDER=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -44,6 +46,12 @@ while [ $# -gt 0 ]; do
             resync=true
             shift
             ;;
+        --folder | f)
+            FOLDER="$2"
+            shift
+            shift
+            ;;
+
         --help | -h )
             func_usage; exit 0 ;;
         -* )
@@ -63,6 +71,20 @@ else
     parameters+=("--resync")
 fi
 
-rclone bisync "${HOME}/Documents" "${DRIVE_NAME}:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
-rclone bisync "${HOME}/Templates" "${DRIVE_NAME}:Templates/" "${parameters[@]}" 
-rclone bisync "${HOME}/.config/matplotlib/" "${DRIVE_NAME}:.config/matplotlib/" "${parameters[@]}" 
+if [[ $FOLDER != "" ]]; then
+    FOLDER=$(realpath "$FOLDER")
+    if [[ $FOLDER == "${HOME}/Documents"* ]]; then # check if it starts with HOME/Documents
+        DRIVE_FOLDER="${FOLDER#${HOME}/Documents}"
+    else 
+        echo "$FOLDER is not in home"
+        exit 0
+    fi
+    rclone bisync "$FOLDER" "${DRIVE_NAME}:${DRIVE_FOLDER}" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
+else
+    rclone bisync "${HOME}/Documents" "${DRIVE_NAME}:Documents/" --filters-file "${HOME}/Dev/SyncSPIN/${FILTER_FILE}" "${parameters[@]}" 
+    rclone bisync "${HOME}/Templates" "${DRIVE_NAME}:Templates/" "${parameters[@]}" 
+    rclone bisync "${HOME}/.config/matplotlib/" "${DRIVE_NAME}:.config/matplotlib/" "${parameters[@]}" 
+fi
+
+
+
